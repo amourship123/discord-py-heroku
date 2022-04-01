@@ -1,16 +1,60 @@
 import os
-from discord.ext import commands
+import discord
+from dotenv import load_dotenv
+import random
 
-bot = commands.Bot(command_prefix="!")
+load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
 
-@bot.event
+client = discord.Client()
+
+prefix = ["Yui"]
+petname = ["senpai"]
+
+@client.event
 async def on_ready():
-    print(f"Logged in as {bot.user.name}({bot.user.id})")
+    print(f"{client.user} has connected to Discord!")
 
-@bot.command()
-async def ping(ctx):
-    await ctx.send("pong")
 
-if __name__ == "__main__":
-    bot.run(TOKEN)
+      
+@client.event
+async def on_message(message):
+    if message.author == client.user:
+        return
+
+    if message.content.startswith("Yui-chan help") or message.content.startswith(f"{prefix[-1]} help"):
+        embed = discord.Embed(title = f"Hey, {petname[-1]}~", url = "https://sites.google.com/view/yui-chan/home", description = f"My documentation", color = 0xFF9CFC)
+        await message.channel.send(embed=embed)
+
+    if message.content.startswith("Yui-chan loli") or message.content.startswith(f"{prefix[-1]} loli"):
+        await message.channel.send("FBI OPEN UP GO GO GO")
+
+    if message.content.startswith("Yui-chan prefix ") or message.content.startswith(f"{prefix[-1]} prefix "):
+        msg = message.content
+        prefix.append(msg.split()[2])
+        del prefix[0]
+        await message.channel.send(f"The new prefix is {prefix[-1]}, but remember you can always use Yui-chan {petname[-1]}~")
+
+    if message.content.startswith("Yui-chan call me ") or message.content.startswith(f"{prefix[-1]} call me"):
+        msg = message.content
+        petname.append(msg.split()[3])
+        del petname[0]
+        await message.channel.send(f"I'll call you {petname[-1]}~")
+
+    if message.content.startswith("Yui-chan random hentai") or message.content.startswith(f"{prefix[-1]} random hentai"):
+        randint = random.randint(100000, 397726)
+        randomhen = f"https://nhentai.net/g/{randint}/"
+        embed = discord.Embed(title = f"Your hentai, {petname[-1]}~", url = randomhen, description = f"Feeling adventurous? Why don't you feel adventurous with me later, {petname[-1]}~", color = 0xFF9CFC)
+        await message.channel.send(embed=embed)
+
+    if message.content.startswith("Yui-chan link ") or message.content.startswith(f"{prefix[-1]} link "):
+        msg = message.content
+        code = msg.split()[2]
+        if len(code) == 6 and code.isnumeric() == True:
+          hen = f"https://nhentai.net/g/{code}/"
+          embed = discord.Embed(title = f"Your hentai, {petname[-1]}~", url = hen, description = f"Know what you like? Well, I know you'll like me, {petname[-1]}~", color = 0xFF9CFC)
+          await message.channel.send(embed=embed)
+        else:
+          await message.channel.send(f"Please input a valid code, {petname[-1]}~")
+        
+client.run(TOKEN)
