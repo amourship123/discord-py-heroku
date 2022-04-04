@@ -1,11 +1,10 @@
 import os
 import discord
 from dotenv import load_dotenv
-import random
 
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
-
+print(TOKEN)
 client = discord.Client()
 
 prefix = ["Yui"]
@@ -42,9 +41,7 @@ async def on_message(message):
         await message.channel.send(f"I'll call you {petname[-1]}~")
 
     if message.content.startswith("Yui-chan random hentai") or message.content.startswith(f"{prefix[-1]} random hentai"):
-        randint = random.randint(100000, 397726)
-        randomhen = f"https://nhentai.net/g/{randint}/"
-        embed = discord.Embed(title = f"Your hentai, {petname[-1]}~", url = randomhen, description = f"Feeling adventurous? Why don't you feel adventurous with me later, {petname[-1]}~", color = 0xFF9CFC)
+        embed = discord.Embed(title = f"Your hentai, {petname[-1]}~", url = "https://nhentai.net/random", description = f"Feeling adventurous? Why don't you feel adventurous with me later, {petname[-1]}~", color = 0xFF9CFC)
         await message.channel.send(embed=embed)
 
     if message.content.startswith("Yui-chan link ") or message.content.startswith(f"{prefix[-1]} link "):
