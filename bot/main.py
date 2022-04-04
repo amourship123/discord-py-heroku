@@ -53,5 +53,23 @@ async def on_message(message):
           await message.channel.send(embed=embed)
         else:
           await message.channel.send(f"Please input a valid code, {petname[-1]}~")
+
+    if message.content.startswith("Yui-chan search ") or message.content.startswith(f"{prefix[-1]} link "):
+        msg = message.content
+        first = msg.split()
+        first.append("filer")
+        term = first[2:-1]
+        print(term)
+        exact = ""
+        print(exact)
+        for i in term:
+          exact = exact + i
+          print(exact)
+          exact = exact + "+"
+          print(exact)
+        print(exact)
+        search = f"https://nhentai.net/search/?q={exact}"
+        embed = discord.Embed(title = f"Your hentai, {petname[-1]}~", url = search, description = f"Looking for something? Please look all over me, {petname[-1]}~", color = 0xFF9CFC)
+        await message.channel.send(embed=embed)
         
 client.run(TOKEN)
